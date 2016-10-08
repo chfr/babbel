@@ -24,16 +24,18 @@ The ``Content-Type: application/json`` header should be present in the request.
 To send a message, issue a POST request to ``/username/message/``. The body of the request should be form encoded with two parameters, ``receiver`` and ``message``:  
 ``receiver=elonmusk&message=Cool+rockets,+man``  
 ### cURL examples
-Sending a message:  
+Sending a message from user1 to user2:  
 ``curl -X POST http://example.com/user1/message/ --data "receiver=user2&message=Hi+how+are+you?"``  
-Deleting messages 28, 29 and 30:  
+Deleting messages 28, 29 and 30 as user1:  
 ``curl -LX DELETE http://example.com/user1/message/ --data "{\"ids\": [28,29,30]}"``  
-Deleting message 18:  
+Deleting message 18 as user1:  
 ``curl -ILX DELETE http://example.com/user1/message/18/``  
-Getting all messages between 2016-10-05 10:23:29 and 2016-10-28 10:23:50:
+Getting all messages for user1 between 2016-10-05 10:23:29 and 2016-10-28 10:23:50:
 ``curl "http://example.com/user1/messages/?start=2016-10-05T10%3A23%3A29.000000%2B00%3A00&end=2016-10-28T10%3A23%3A50.828699%2B00%3A00"``
 ### Using the quick and dirty client
-
+**Disclaimer**: This part of the code is untested, error prone and barely fit for use. It should not be used to judge the overall quality of the work.  
+For convenience and debugging purposes, there are some views defined that can be used to see what's going on. At ``/db/`` there's a database dump of the users and messages that are stored in the database. At ``/username/`` there's a list of all the messages addressed to that user and a form that you can use to send messages. As mentioned earlier there's also ``/dates/`` that lists a couple of pre-formatted date strings to be used with the time interval filters for message retrieval.  
+Not everything can be done through these views. Deletions, new message retrievals and time interval retrievals can only be done by calling the API directly.
 
 ## Running
 To run it, clone this repo and put it somewhere where your WSGI server of choice can find it, making sure to set up the permissions correctly.
