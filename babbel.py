@@ -16,6 +16,8 @@ api = Api(app)
 
 app.secret_key = "5"  # Guaranteed random by fair dice roll
 
+app.config["DEBUG"] = False
+
 db_session = None
 
 
