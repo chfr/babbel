@@ -1,9 +1,13 @@
 # Babbel
+## The name
 Swedish for babble, unsurprisingly.
-This is a RESTful messaging app API built with Flask. It's also the first Flask app I've built, which may make it a bit rough around the edges.  
+## What?
+This is a RESTful messaging app API built with Flask. It's also the first time I've used Flask, which might make it a bit rough around the edges.  
 
 ## Usage
-The API can be used with utilities like cURL or (partially) via some simple views provided in this repository.
+The API can be used with utilities like cURL or (partially) via some simple views provided in this repository.  
+There is a live version of this app hosted at http://chfr.net:8080 that should be open for business. It is hosted on a Raspberry Pi 3 on a residential fiber connection, so reliability can't be guaranteed.  
+By default there are 3 users defined, ``a``, ``b`` and ``c``. So, as detailed in the descriptions below, the messages for user ``a`` can be accessed at http://chfr.net:8080/a/.
 
 ### API
 For all API calls, ``2XX`` responses indicate success and ``4XX`` responses indicate failure. Requests that do not return any data will return ``204 No Content``.
