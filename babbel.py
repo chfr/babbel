@@ -152,6 +152,7 @@ class MessageResource(Resource):
         http://chfr.net:8080/a/message/11/
         To delete multiple messages, include a request body with JSON data, containing a single list called "ids":
         { "ids": [1, 2, 3, 5] }
+        Returns 204 if at least one deletion succeeded, otherwise 400 Bad Request.
         """
         app.logger.debug(u"DELETE MessageResource %s" % request.path)
 
@@ -165,6 +166,7 @@ class MessageResource(Resource):
 
         user = get_user_or_error(username)
 
+        deletion_succeeeded = False
         for msg_id in ids:
             message = get_user_message_by_id(user, msg_id, fail_silently=True)
             if message is None:
@@ -172,8 +174,11 @@ class MessageResource(Resource):
             else:
                 db_session.delete(message)
                 db_session.commit()
-
-        return "", 204  # 204 No Content # TODO this shouldn't return 204 if all of the delete operations failed
+                deletion_succeeeded = True
+        if deletion_succeeeded:
+            return "", 204  # 204 No Content
+        else:
+            return "", 400  # 400 Bad Request
 
 
 class MessageList(Resource):
