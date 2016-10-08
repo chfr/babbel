@@ -173,7 +173,7 @@ class MessageResource(Resource):
                 db_session.delete(message)
                 db_session.commit()
 
-        return "", 204  # 204 No Content
+        return "", 204  # 204 No Content # TODO this shouldn't return 204 if all of the delete operations failed
 
 
 class MessageList(Resource):
