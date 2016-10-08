@@ -1,8 +1,9 @@
 # Babbel
 Swedish for babble, unsurprisingly.
-This is a basic messaging app built with a simple REST API. It's also the first Flask app I've built, which may make it a bit rough around the edges.  
+This is a RESTful messaging app API built with Flask. It's also the first Flask app I've built, which may make it a bit rough around the edges.  
 
 ## Usage
+The API can be used with utilities like cURL or (partially) via some simple views provided in this repository.
 
 ### API
 For all API calls, ``2XX`` responses indicate success and ``4XX`` responses indicate failure. Requests that do not return any data will return ``204 No Content``.
@@ -39,12 +40,26 @@ Not everything can be done through these views. Deletions, new message retrieval
 
 ## Running
 To run it, clone this repo and put it somewhere where your WSGI server of choice can find it, making sure to set up the permissions correctly.
-I used uWSGI to host it on my Raspberry Pi 3, see below for details.
+I used uWSGI to host it on my Raspberry Pi 3, see below for details.  
+I haven't tested it thoroughly, but running it with the built-in ``flask run`` command seems to work as well. 
+
+### Dependencies
+The dependencies are listed in requirements.txt. Some notable inclusions:
+
+* **Flask-RESTful**: Used to simplify the creation of RESTful API endpoints
+* **SQLAlchemy**: Database ORM
+* **Flask-SQLAlchemy**: Flask-specific bindings for SQLAlchemy
+* **pytz**: Time zone library, helps to keep time zones in order
 
 ## Deployment
 I host it using uWSGI, installed from pip:
 ``pip install uwsgi``  
 Then launched as follows (port 8080):  
 ``uwsgi -s /tmp/uwsgi.sock --manage-script-name --http :8080 --mount /babbel=babbel:app --virtualenv /path/to/your/venv --stats 127.0.0.1:8081 --master --processes 4 --threads 2 --touch-reload /path/to/touchfile``  
+
+## Known issues
+
+* All timestamps are hardcoded to the UTC time zone. Different time zones should work but have not been tested at all.
+* Trailing slashes are important when using cURL, even when using the -L switch to follow redirects.
 
 
