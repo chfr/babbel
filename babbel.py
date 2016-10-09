@@ -1,12 +1,12 @@
 # coding=utf-8
-from flask import Flask, escape, request
-from flask_restful import reqparse, abort, Api, Resource
-from datetime import datetime, timedelta
+from datetime import datetime
+
 import pytz
 from dateutil import parser
-from urllib import quote_plus
-from sqlalchemy.orm import scoped_session, sessionmaker
+from flask import Flask, request
+from flask_restful import reqparse, abort, Api, Resource
 from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 from database import Base, populate_db
 from models import User, Message, BEGINNING_OF_TIME, MESSAGE_MAXLEN

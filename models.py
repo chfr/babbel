@@ -1,9 +1,11 @@
 # coding=utf-8
+from datetime import datetime
+
+import pytz
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, TypeDecorator
 from sqlalchemy.orm import relationship
+
 from database import Base
-from datetime import datetime
-import pytz
 
 MESSAGE_MAXLEN = 100
 BEGINNING_OF_TIME = datetime(1987, 4, 2, 0, 0, 1, tzinfo=pytz.utc)

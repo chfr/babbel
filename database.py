@@ -1,8 +1,8 @@
 # coding=utf-8
-from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-from flask import g
+
 import pytz
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 

@@ -5,8 +5,8 @@ from urllib import quote_plus
 import pytz
 from flask import escape, request, Blueprint, current_app
 
-from models import User, Message
 import babbel
+from models import User, Message
 
 views = Blueprint("views", __name__)
 
