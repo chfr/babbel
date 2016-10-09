@@ -54,7 +54,9 @@ Activate the virtual environment (command may differ depending on OS, this is fo
 Install the required libraries using the following command:  
 ``pip install -r requirements.txt``  
 I use uWSGI to host it on my Raspberry Pi 3, see below for details.  
-I haven't tested it thoroughly, but running it with the built-in ``flask run`` command seems to work as well. 
+I haven't tested it thoroughly, but running it with the built-in ``flask run`` command seems to work as well. To run with ``flask run``, remember to set the FLASK_APP environment variable:  
+``export FLASK_APP=babbel.py``  
+
 
 ### Dependencies
 The dependencies are listed in requirements.txt. Some notable inclusions:
