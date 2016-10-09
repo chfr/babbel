@@ -7,7 +7,7 @@ import pytz
 Base = declarative_base()
 
 
-def populate_db():
+def populate_db(db_session):
     from models import User, Message
 
     if User.query.count() > 0:  # Quick and dirty way to make sure we only run this when the DB is empty
@@ -15,7 +15,6 @@ def populate_db():
         return
 
     print "Populating database with dummy data..."
-    db_session = g.db_session
 
     a = User(username="a")
     db_session.add(a)

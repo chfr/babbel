@@ -249,7 +249,7 @@ def setup_db():
 
     testing = app.config.get("TESTING", False)
     if not testing:
-        populate_db()
+        populate_db(db_session)
 
     return db_session
 
