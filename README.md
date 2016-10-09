@@ -50,9 +50,9 @@ In the directory where you cloned this repo, set up a virtualenv:
 Note that this application is only tested using Python 2, so you may need to specify the Python interpreter as such:  
 ``virtualenv -p /path/to/python2 venv``  
 Activate the virtual environment (command may differ depending on OS, this is for Ubuntu/Debian):  
-``source venv/bin/activate``
+``source venv/bin/activate``  
 Install the required libraries using the following command:  
-``pip install -r requirements.txt``
+``pip install -r requirements.txt``  
 I use uWSGI to host it on my Raspberry Pi 3, see below for details.  
 I haven't tested it thoroughly, but running it with the built-in ``flask run`` command seems to work as well. 
 
