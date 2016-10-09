@@ -10,14 +10,15 @@ There is a live version of this app hosted at http://chfr.net:8080 that should b
 By default there are 3 users defined, ``a``, ``b`` and ``c``. So, as detailed in the descriptions below, the messages for user ``a`` can be accessed at http://chfr.net:8080/a/.
 
 ### API
-For all API calls, ``2XX`` responses indicate success and ``4XX`` responses indicate failure. Requests that do not return any data will return ``204 No Content``.
+For all API calls, ``2XX`` responses indicate success and ``4XX`` responses indicate failure. Requests that do not return any data will return ``204 No Content``.  
+Some of the operations described below can be performed by the simple views available in the repository, but complete functionality can be achieved using cURL as described in the **cURL examples** section.
 #### Retrieving messages
 When retrieving messages, the response will always be one or more JSON objects describing a message. The JSON object contains the ID, the sender's username, the message contents and a timestamp.  
 A user's messages can be retrieved at ``/username/message/`` and ``/username/messages/``.  
-To retrieve new messages, issue a GET request to ``/username/messages/``. If there are no new messages, an empty JSON list is returned. If there are new messages, they will be returned in a JSON list. The messages that are returned have then been "seen" and will not be returned again.  
-To retrieve a specific message by ID issue a GET request to ``/username/message/id/``.  
+To retrieve new messages, issue a GET request to ``/username/messages/``. If there are no new messages, an empty JSON list is returned. If there are new messages, they will be returned in a JSON list. The messages that are returned have then been "seen" and will not be returned again in subsequent requests.  
+To retrieve a specific message by ID, issue a GET request to ``/username/message/id/``.  
 To retrieve messages that were received within a specific time interval, GET requests like this are used:  
-``/username/messages?start=<start timestamp>&end=<end timestamp>``  
+``/username/messages/?start=<start timestamp>&end=<end timestamp>``  
 Timestamps must be provided in the ISO 8601 format, like ``2016-10-08T16:17:25.735955+00:00``. In order to use them as GET parameters, they must be URL encoded into ``2016-10-08T16%3A17%3A25.735955%2B00%3A00``. Since these formats can be tedious to work with by hand,  ``/dates/`` has some pre-formatted examples.  
 Requests can omit either of the ``start`` or ``end`` parameters. If ``start`` is omitted, all messages up until the ``end`` date are returned. If the ``end`` parameter is omitted, all messages starting from ``start`` are returned.
 #### Deleting messages
