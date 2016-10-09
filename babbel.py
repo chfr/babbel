@@ -1,5 +1,5 @@
 # coding=utf-8
-from flask import Flask, escape, request, g
+from flask import Flask, escape, request
 from flask_restful import reqparse, abort, Api, Resource
 from datetime import datetime, timedelta
 import pytz
@@ -172,6 +172,7 @@ class MessageResource(Resource):
             if message is None:
                 app.logger.warning("Attempted deletion of message %s failed for user %s" % (msg_id, user.username))
             else:
+                app.logger.debug("Deleting message with id %s" % message.id)
                 db_session.delete(message)
                 db_session.commit()
                 deletion_succeeeded = True
