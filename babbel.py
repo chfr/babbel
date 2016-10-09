@@ -124,8 +124,7 @@ class MessageResource(Resource):
 
     def get(self, username, msg_id):
         """
-        If called without the msg_id parameter, all new messages since the user's last fetch are returned.
-        If the msg_id parameter is present, the message identified by that id is returned.
+        Returns the message identified by msg_id, if the specified user is the message's recipient.
         """
         app.logger.debug(u"GET MessageResource %s" % request.path)
         user = get_user_or_error(username)
