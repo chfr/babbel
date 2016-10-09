@@ -78,6 +78,12 @@ def get_user_or_error(username, error=404):
 
 
 def dictify_message(message):
+    """
+    Returns a Python dict representation of a Message object from the database.
+    Note that the timestamp time zone information is not preserved in this naive implementation.
+    :param message: the Message object to be converted
+    :return: a dict representing the message, with the keys "id", "sender", "message" and "timestamp"
+    """
     return {
         "id": message.id,
         "sender": message.sender.username,
@@ -86,6 +92,11 @@ def dictify_message(message):
 
 
 def parse_datetime(arg):
+    """
+    Parses a string containing a datetime value and returns a Python datetime object.
+    :param arg: the string to be parsed
+    :return: a datetime object
+    """
     if not isinstance(arg, basestring):
         abort(400)
     try:
