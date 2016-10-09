@@ -45,7 +45,7 @@ Not everything can be done through these views. Deletions, new message retrieval
 
 ## Running
 To run it, clone this repo and put it somewhere where your WSGI server of choice can find it, making sure to set up the permissions correctly.  
-In the directory where you cloned this repo, set up a virtualenv:
+In the directory where you cloned this repo, set up a virtualenv:  
 ``virtualenv venv``  
 Note that this application is only tested using Python 2, so you may need to specify the Python interpreter as such:  
 ``virtualenv -p /path/to/python2 venv``  
