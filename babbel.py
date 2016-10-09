@@ -237,6 +237,7 @@ api.add_resource(MessageList, u"/<username>/messages/")
 def setup_db():
     """
     Sets up the database, connections, etc.
+    :return: a database session object that can be used to access the database
     """
 
     filename = app.config.get("DATABASE", "sqlite:////tmp/babbel.db")
