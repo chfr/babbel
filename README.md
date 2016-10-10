@@ -66,6 +66,11 @@ The dependencies are listed in requirements.txt. Some notable inclusions:
 * **Flask-SQLAlchemy**: Flask-specific bindings for SQLAlchemy
 * **pytz**: Time zone library, helps to keep time zones in order
 
+### Tests
+The tests are defined in babbel_tests.py and cover all functionality described above. The tests do not, however, cover the extra views like ``/dates/`` and ``/db/``.  
+To run the tests, make sure your virtualenv is activated and run ``python babbel_tests.py``.  
+The tests use Flask's built-in testing client to simulate actual requests to the API, and Python's ``unittest`` module is used to define and run the test cases.
+
 ## Deployment
 I host it using uWSGI, installed from pip:
 ``pip install uwsgi``  
@@ -76,5 +81,6 @@ Then launched as follows (port 8080):
 
 * All timestamps are hardcoded to the UTC time zone. Different time zones should work but have not been tested at all.
 * Trailing slashes are important when using cURL, even when using the -L switch to follow redirects.
+* The API is not versioned. Ideally, requests should be able to specify which version of the API they target, which could be as simple as changing ``/username/message/`` to ``/v1/username/message/``. 
 
 
