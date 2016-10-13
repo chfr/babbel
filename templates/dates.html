@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Babbel: date helper{% endblock %}
+{% block body %}
+    <table cellspacing="10">
+        <tr>
+            <td>When</td><td>Timestamp</td><td>URL encoded</td>
+        </tr>
+        <tr>
+            <td>-5 min</td><td>{{ minus5.isoformat() }}</td><td>{{ minus5.isoformat()|urlencode() }}</td>
+        </tr>
+        <tr>
+            <td>-1 min</td><td>{{ minus1.isoformat() }}</td><td>{{ minus1.isoformat()|urlencode() }}</td>
+        </tr>
+        <tr>
+            <td><b>now</b><td>{{ now.isoformat() }}</td><td>{{ now.isoformat()|urlencode() }}</td>
+        </tr>
+        <tr>
+            <td>+1 min</td><td>{{ plus1.isoformat() }}</td><td>{{ plus1.isoformat()|urlencode() }}</td>
+        </tr>
+        <tr>
+            <td>+5 min</td><td>{{ plus5.isoformat() }}</td><td>{{ plus5.isoformat()|urlencode() }}</td>
+        </tr>
+    </table>
+
+{% endblock %}

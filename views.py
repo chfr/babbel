@@ -18,25 +18,13 @@ views = Blueprint("views", __name__)
 @views.route("/dates/", methods=["GET"])
 def dates():
     now = datetime.now(tz=pytz.utc)
-    ret = "<html><body><table cellspacing=\"10\"><tr><td>When</td><td>Timestamp</td><td>URL encoded</td></tr>"
 
     minus5 = now + timedelta(minutes=-5)
-    ret += "<tr><td>-5 min</td><td>%s</td><td>%s</td></tr>" % (minus5.isoformat(), quote_plus(minus5.isoformat()))
-
     minus1 = now + timedelta(minutes=-1)
-    ret += "<tr><td>-1 min</td><td>%s</td><td>%s</td></tr>" % (minus1.isoformat(), quote_plus(minus1.isoformat()))
-
-    ret += "<tr><td><b>now</b></td><td>%s</td><td>%s</td></tr>" % (now.isoformat(), quote_plus(now.isoformat()))
-
     plus1 = now + timedelta(minutes=1)
-    ret += "<tr><td>+1 min</td><td>%s</td><td>%s</td></tr>" % (plus1.isoformat(), quote_plus(plus1.isoformat()))
-
     plus5 = now + timedelta(minutes=5)
-    ret += "<tr><td>+5 min</td><td>%s</td><td>%s</td></tr>" % (plus5.isoformat(), quote_plus(plus5.isoformat()))
 
-    ret += "</table></body></html>"
-
-    return ret
+    return render_template("dates.html", minus5=minus5, minus1=minus1, now=now, plus1=plus1, plus5=plus5)
 
 
 @views.route("/<string:username>/", methods=["GET"])
