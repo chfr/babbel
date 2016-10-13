@@ -10,14 +10,15 @@ There is a live version of this app hosted at http://chfr.net:8080 that should b
 By default there are 3 users defined, ``a``, ``b`` and ``c``. So, as detailed in the descriptions below, the messages for user ``a`` can be accessed at http://chfr.net:8080/a/.
 
 ### API
-For all API calls, ``2XX`` responses indicate success and ``4XX`` responses indicate failure. Requests that do not return any data will return ``204 No Content``.
+For all API calls, ``2XX`` responses indicate success and ``4XX`` responses indicate failure. Requests that do not return any data will return ``204 No Content``.  
+Some of the operations described below can be performed by the simple views available in the repository, but complete functionality can be achieved using cURL as described in the **cURL examples** section.
 #### Retrieving messages
 When retrieving messages, the response will always be one or more JSON objects describing a message. The JSON object contains the ID, the sender's username, the message contents and a timestamp.  
 A user's messages can be retrieved at ``/username/message/`` and ``/username/messages/``.  
-To retrieve new messages, issue a GET request to ``/username/messages/``. If there are no new messages, an empty JSON list is returned. If there are new messages, they will be returned in a JSON list. The messages that are returned have then been "seen" and will not be returned again.  
-To retrieve a specific message by ID issue a GET request to ``/username/message/id/``.  
+To retrieve new messages, issue a GET request to ``/username/messages/``. If there are no new messages, an empty JSON list is returned. If there are new messages, they will be returned in a JSON list. The messages that are returned have then been "seen" and will not be returned again in subsequent requests.  
+To retrieve a specific message by ID, issue a GET request to ``/username/message/id/``.  
 To retrieve messages that were received within a specific time interval, GET requests like this are used:  
-``/username/messages?start=<start timestamp>&end=<end timestamp>``  
+``/username/messages/?start=<start timestamp>&end=<end timestamp>``  
 Timestamps must be provided in the ISO 8601 format, like ``2016-10-08T16:17:25.735955+00:00``. In order to use them as GET parameters, they must be URL encoded into ``2016-10-08T16%3A17%3A25.735955%2B00%3A00``. Since these formats can be tedious to work with by hand,  ``/dates/`` has some pre-formatted examples.  
 Requests can omit either of the ``start`` or ``end`` parameters. If ``start`` is omitted, all messages up until the ``end`` date are returned. If the ``end`` parameter is omitted, all messages starting from ``start`` are returned.
 #### Deleting messages
@@ -43,9 +44,19 @@ For convenience and debugging purposes, there are some views defined that can be
 Not everything can be done through these views. Deletions, new message retrievals and time interval retrievals can only be done by calling the API directly.
 
 ## Running
-To run it, clone this repo and put it somewhere where your WSGI server of choice can find it, making sure to set up the permissions correctly.
-I used uWSGI to host it on my Raspberry Pi 3, see below for details.  
-I haven't tested it thoroughly, but running it with the built-in ``flask run`` command seems to work as well. 
+To run it, clone this repo and put it somewhere where your WSGI server of choice can find it, making sure to set up the permissions correctly.  
+In the directory where you cloned this repo, set up a virtualenv:  
+``virtualenv venv``  
+Note that this application is only tested using Python 2, so you may need to specify the Python interpreter as such:  
+``virtualenv -p /path/to/python2 venv``  
+Activate the virtual environment (command may differ depending on OS, this is for Ubuntu/Debian):  
+``source venv/bin/activate``  
+Install the required libraries using the following command:  
+``pip install -r requirements.txt``  
+I use uWSGI to host it on my Raspberry Pi 3, see below for details.  
+I haven't tested it thoroughly, but running it with the built-in ``flask run`` command seems to work as well. To run with ``flask run``, remember to set the FLASK_APP environment variable:  
+``export FLASK_APP=babbel.py``  
+
 
 ### Dependencies
 The dependencies are listed in requirements.txt. Some notable inclusions:
@@ -54,6 +65,11 @@ The dependencies are listed in requirements.txt. Some notable inclusions:
 * **SQLAlchemy**: Database ORM
 * **Flask-SQLAlchemy**: Flask-specific bindings for SQLAlchemy
 * **pytz**: Time zone library, helps to keep time zones in order
+
+### Tests
+The tests are defined in babbel_tests.py and cover all functionality described above. The tests do not, however, cover the extra views like ``/dates/`` and ``/db/``.  
+To run the tests, make sure your virtualenv is activated and run ``python babbel_tests.py``.  
+The tests use Flask's built-in testing client to simulate actual requests to the API, and Python's ``unittest`` module is used to define and run the test cases.
 
 ## Deployment
 I host it using uWSGI, installed from pip:
@@ -65,5 +81,6 @@ Then launched as follows (port 8080):
 
 * All timestamps are hardcoded to the UTC time zone. Different time zones should work but have not been tested at all.
 * Trailing slashes are important when using cURL, even when using the -L switch to follow redirects.
+* The API is not versioned. Ideally, requests should be able to specify which version of the API they target, which could be as simple as changing ``/username/message/`` to ``/v1/username/message/``. 
 
 

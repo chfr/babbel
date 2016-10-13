@@ -1,14 +1,15 @@
-import babbel
-import unittest
-import tempfile
 import os
-from models import User, Message
+import tempfile
+import unittest
 from datetime import datetime, timedelta
 from urllib import quote_plus
+
 import pytz
 from flask import json
 
+import babbel
 from babbel import setup_db
+from models import User
 
 
 class BabbelTestCase(unittest.TestCase):

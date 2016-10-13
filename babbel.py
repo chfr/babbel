@@ -1,12 +1,12 @@
 # coding=utf-8
-from flask import Flask, escape, request
-from flask_restful import reqparse, abort, Api, Resource
-from datetime import datetime, timedelta
+from datetime import datetime
+
 import pytz
 from dateutil import parser
-from urllib import quote_plus
-from sqlalchemy.orm import scoped_session, sessionmaker
+from flask import Flask, request
+from flask_restful import reqparse, abort, Api, Resource
 from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 from database import Base, populate_db
 from models import User, Message, BEGINNING_OF_TIME, MESSAGE_MAXLEN
@@ -78,6 +78,12 @@ def get_user_or_error(username, error=404):
 
 
 def dictify_message(message):
+    """
+    Returns a Python dict representation of a Message object from the database.
+    Note that the timestamp time zone information is not preserved in this naive implementation.
+    :param message: the Message object to be converted
+    :return: a dict representing the message, with the keys "id", "sender", "message" and "timestamp"
+    """
     return {
         "id": message.id,
         "sender": message.sender.username,
@@ -86,6 +92,11 @@ def dictify_message(message):
 
 
 def parse_datetime(arg):
+    """
+    Parses a string containing a datetime value and returns a Python datetime object.
+    :param arg: the string to be parsed
+    :return: a datetime object
+    """
     if not isinstance(arg, basestring):
         abort(400)
     try:
@@ -113,8 +124,7 @@ class MessageResource(Resource):
 
     def get(self, username, msg_id):
         """
-        If called without the msg_id parameter, all new messages since the user's last fetch are returned.
-        If the msg_id parameter is present, the message identified by that id is returned.
+        Returns the message identified by msg_id, if the specified user is the message's recipient.
         """
         app.logger.debug(u"GET MessageResource %s" % request.path)
         user = get_user_or_error(username)
@@ -237,6 +247,7 @@ api.add_resource(MessageList, u"/<username>/messages/")
 def setup_db():
     """
     Sets up the database, connections, etc.
+    :return: a database session object that can be used to access the database
     """
 
     filename = app.config.get("DATABASE", "sqlite:////tmp/babbel.db")
@@ -249,7 +260,7 @@ def setup_db():
 
     testing = app.config.get("TESTING", False)
     if not testing:
-        populate_db()
+        populate_db(db_session)
 
     return db_session
 
