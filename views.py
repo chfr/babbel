@@ -60,15 +60,6 @@ def db():
     current_app.logger.debug(u"GET db %s" % request.path)
 
     users = User.query.all()
-    num_users = User.query.count()
-    userstring = u"<br>".join(escape(user) for user in users)
     messages = Message.query.all()
-    num_messages = len(messages)
-    messagestring = u"<br>".join(escape(message) for message in messages)
 
-    return u"""
-    users: %s<br>
-    <pre>%s</pre>
-    <br><br>
-    messages: %s<br>
-    %s""" % (num_users, userstring, num_messages, messagestring)
+    return render_template("db.html", users=users, messages=messages)

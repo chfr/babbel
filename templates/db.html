@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Babbel: DB dump{% endblock %}
+{% block body %}
+    Users ({{ users|length }} total):
+    <ul>
+    {% for user in users %}
+        <li>{{ user }}</li>
+    {% else %}
+        <li>No users added yet</li>
+    {% endfor %}
+    </ul>
+
+    <br>
+    Messages ({{ messages|length }} total):
+    <ul>
+    {% for message in messages %}
+        <li>[{{ message.timestamp }}] Message from {{ message.sender.username }} to {{ message.receiver.username }}: {{ message.message }}</li>
+    {% else %}
+        <li>No messages sent yet.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
