@@ -2,7 +2,15 @@
 {% block scripts %}
     <script>
         function deleteMessage(msg_id) {
-          alert("deleting " + msg_id);
+            $.ajax({
+                url: "/{{ username }}/message/" + msg_id + "/",
+                type: "DELETE"})
+            .done(function(data, statusText, xhr){
+                location.reload(true);
+            }).fail(function(data, statusText, xhr){
+                alert("Error: delete failed");
+                location.reload(true);
+            });
         };
     </script>
 {% endblock %}
@@ -16,7 +24,10 @@
     </form>
     <ul>
     {% for message in messages %}
-        <li>[{{ message.timestamp }}] Message from {{ message.sender.username }}: {{ message.message }}&nbsp;<a href="javascript:deleteMessage({{ message.id }});">Delete</a></li>
+        <li>[{{ message.timestamp }}] Message from {{ message.sender.username }}: {{ message.message }}&nbsp;
+            <a href="javascript:deleteMessage({{ message.id }});">Delete</a></li>
+    {% else %}
+        <li>No messages for {{ username }} yet.</li>
     {% endfor %}
     </ul>
 {% endblock %}
