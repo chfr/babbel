@@ -3,10 +3,10 @@ from datetime import datetime, timedelta
 from urllib import quote_plus
 
 import pytz
-from flask import escape, request, Blueprint, current_app
+from flask import escape, request, Blueprint, current_app, render_template
 
-from models import User, Message
 import babbel
+from models import User, Message
 
 views = Blueprint("views", __name__)
 
@@ -48,16 +48,8 @@ def index(username):
 
     user = babbel.get_user_or_error(username)
     messages = Message.query.filter_by(receiver=user).order_by(Message.timestamp)
-    messagestring = u"<br>".join(unicode(message) for message in messages)
 
-    return u"""Logged in as: %s<br>
-            <form action="/%s/message/" method="post">
-                <p>Recipient:<input type=text name=receiver>
-                <p>Message:<input type=text name=message>
-                <p><input type=submit value=Send>
-            </form>
-            <p>%s</p>
-        """ % (username, username, messagestring)
+    return render_template("profile.html", messages=messages, username=username)
 
 
 @views.route("/db/", methods=["GET"])

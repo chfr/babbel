@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block scripts %}
+    <script>
+        function deleteMessage(msg_id) {
+          alert("deleting " + msg_id);
+        };
+    </script>
+{% endblock %}
+{% block body %}
+    <p>Logged in as: {{ username }}</p>
+
+    <form action="/{{ username }}/message/" method="post">
+        <p>Recipient:<input type=text name=receiver>
+        <p>Message:<input type=text name=message>
+        <p><input type=submit value=Send>
+    </form>
+    <ul>
+    {% for message in messages %}
+        <li>[{{ message.timestamp }}] Message from {{ message.sender.username }}: {{ message.message }}&nbsp;<a href="javascript:deleteMessage({{ message.id }});">Delete</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
